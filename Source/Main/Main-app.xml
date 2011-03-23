@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://ns.adobe.com/air/application/2.0">
+	<id>com.decultured.ScrapUp</id>
+	<version>0.0.1</version>
+	<filename>ScrapUp</filename>
+	<allowBrowserInvocation>true</allowBrowserInvocation>
+	<initialWindow>
+		<content>Main.swf</content>
+		<visible>false</visible>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<width>1000</width>
+		<height>700</height>
+	</initialWindow>
+	<icon>
+		<image128x128>icon-128.png</image128x128>
+	</icon>
+	<fileTypes>
+		<fileType>
+			<name>com.decultured.ScrapUp.scrapbook</name>
+			<extension>sup</extension>
+			<description>ScrapUp Scrapbook file</description>
+			<contentType>application/x-scrapup</contentType>
+			<icon>
+				<image128x128>file-128.png</image128x128>
+			</icon>
+		</fileType>
+	</fileTypes>
+</application>

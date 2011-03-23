@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+    xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:sup="ScrapUp.Application.*"
+	xmlns:supdoc="ScrapUp.Document.*"
+	menu="{nativeMenu}"
+	showStatusBar="false"
+	minHeight="650"	minWidth="900"
+	height="700" width="1000"
+	title="ScrapUp"
+	applicationComplete="Initialize()"
+	close="supApp.Quit();"
+	nativeDragEnter="supApp.onDragIn(event)"
+	nativeDragDrop="supApp.onDrop(event)"
+	>
+	<fx:Style source="defaults.css"/>
+	<fx:Script><![CDATA[
+		import mx.controls.FlexNativeMenu;
+		import mx.controls.Alert;
+		
+		import ScrapUp.Document.*;
+		import ScrapUp.Application.*;
+		import ScrapUp.Scrap.*;
+		
+		private var app:ScrapUpApp;
+		
+		private function Initialize():void
+		{
+			nativeMenu.scrapUpApp = supApp;
+			supApp.window = this;
+		}
+		
+		private function Fullscreen():void
+		{
+			if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE)
+				stage.displayState = StageDisplayState.NORMAL;
+			else
+				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+		}
+		
+		protected function ClickHandler(event:MouseEvent):void
+		{
+			if(event) {
+				if (event.target is EditPage) {
+					app.document.DeselectAll();
+				}
+			}
+		}
+	]]></fx:Script>
+	<fx:Declarations>
+		<sup:ScrapUpMenu id="nativeMenu" showRoot="false"
+			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
+	</fx:Declarations>
+	<sup:ScrapUpApp id="supApp" skinClass="ScrapUp.Application.Skins.ApplicationSkin" height="100%" width="100%" />
+</s:WindowedApplication>

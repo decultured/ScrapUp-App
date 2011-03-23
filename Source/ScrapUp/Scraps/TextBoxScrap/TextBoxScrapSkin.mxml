@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:sup="ScrapUp.Scrap.*"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		alpha.disabled="0.5"
+		creationComplete="CreationCompleteHandler(event)">
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("ScrapUp.Scrap.ScrapView")]
+        ]]>
+    </fx:Metadata> 
+    <s:states>
+        <s:State name="normal" enterState="{EnterNormalState(event);}"/>
+        <s:State name="disabled" />
+        <s:State name="editing" enterState="{EnterEditState(event);}"/>
+    </s:states>
+	<fx:Script><![CDATA[
+		import mx.events.FlexEvent;
+		import spark.utils.TextFlowUtil;
+        import flashx.textLayout.elements.*;
+        import flashx.textLayout.conversion.*;
+		import mx.events.PropertyChangeEvent;
+		import ScrapUp.Scraps.*;
+		import spark.components.TextArea;
+		
+		private var _Loaded:Boolean = false;
+		
+		protected function EnterNormalState(event:FlexEvent):void
+		{
+			if (_Loaded)
+				SaveText();
+			SetText();
+		}
+
+		protected function EnterEditState(event:FlexEvent):void
+		{
+			SetText();
+		}
+		
+		protected function CreationCompleteHandler(event:FlexEvent):void
+		{
+			SetText();
+			_Loaded = true;
+			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+		}
+
+		protected function ModelChanged(event:PropertyChangeEvent):void
+		{
+			if (event.property == "text" && currentState == "normal") {
+				SetText();
+			}
+		}
+
+		protected function SetText():void
+		{
+			var currentTextArea:TextArea;
+			if (currentState == "editing")
+				currentTextArea = editorLabel;
+			else 
+				currentTextArea = viewerLabel;
+			
+			if (!hostComponent.model.text || hostComponent.model.text.length < 1)
+				currentTextArea.textFlow = TextConverter.importToFlow(TextBoxScrap.DEFAULT_LABEL_TEXT, TextConverter.TEXT_FIELD_HTML_FORMAT);
+			else
+				currentTextArea.textFlow = TextConverter.importToFlow(hostComponent.model.text, TextConverter.TEXT_FIELD_HTML_FORMAT);
+		}
+		
+		protected function SaveText():void
+		{
+			hostComponent.model.text = TextConverter.export(editorLabel.textFlow, TextConverter.TEXT_FIELD_HTML_FORMAT, ConversionType.STRING_TYPE );
+		}
+		
+	]]></fx:Script>
+		<sup:ScrapBackground model="{hostComponent.model}" skinClass="ScrapUp.Scrap.Skins.ScrapBackgroundSkin" width="100%" height="100%">
+			<s:TextArea id="viewerLabel" lineBreak="toFit" includeIn="normal"
+				borderVisible="false" contentBackgroundAlpha="0"
+				editable="false" selectable="false"
+				width="100%" height="100%"
+				minWidth="5" minHeight="5" />
+			<s:TextArea id="editorLabel" lineBreak="toFit" includeIn="editing"
+				borderVisible="true" contentBackgroundAlpha="0"
+				editable="true" selectable="true"
+				width="100%" height="100%"
+				minWidth="5" minHeight="5" 
+				change="SaveText()"/>
+		</sup:ScrapBackground>
+</s:Skin>

@@ -1,0 +1,22 @@
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	clipAndEnableScrolling="true" >
+	<fx:Script><![CDATA[
+		[Bindable]public var viewObject:Object;
+	]]></fx:Script>
+	<s:Label text="Border" color="0xffffff" textAlign="center" width="100%"/>
+	<s:HGroup width="100%">
+		<s:Label text="Border Size:" color="0xffffff" width="85"/>
+		<s:HSlider minimum="0" maximum="72" value="@{viewObject.borderWeight}" liveDragging="true" width="100%"/>
+	</s:HGroup>
+	<s:HGroup width="100%">
+		<s:Label text="Corner Radius:" color="0xffffff" width="85"/>
+		<s:HSlider minimum="0" maximum="72" value="@{viewObject.borderRadius}" liveDragging="true" width="100%"/>
+	</s:HGroup>
+	<s:HGroup width="100%">
+		<s:Label text="Margins:" color="0xffffff" width="85"/>
+		<s:HSlider minimum="0" maximum="72" value="@{viewObject.contentMargin}" liveDragging="true" width="100%"/>
+	</s:HGroup>
+</s:Group>
